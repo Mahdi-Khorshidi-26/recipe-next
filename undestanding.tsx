@@ -80,9 +80,63 @@ ROUTING :
     even sometimes we can use this instead of page.tsx file and just have this default.tsx file .
 
 
+6- interceptor route in next.js is a special kind of route that allows us to intercept and modify the request/response cycle.
+    it can be useful for things like authentication, logging, or modifying the response before it reaches the client.
+    to create an interceptor route we can create a folder with the name of (..) like below :
+    📂app:
+        📂test:
+            📂(.)image:
+                page.tsx (this file and the export default component in it is important to have the route)
+                layout.tsx (this file is optional and can be used to define a layout for the route)
+             📂image:
+
+
+7- group routing : is a way to group related routes together under a common parent route. This can be useful for organizing your routes and making them easier to manage.
+    to create a group route we can create a folder with the name of (group) like below :
+    📂app:
+        📂test:
+            📂(group):
+                📂image:
+                    page.tsx (this file and the export default component in it is important to have the route)
+                    layout.tsx (this file is optional and can be used to define a layout for the route)
+                📂video:
+                    page.tsx (this file and the export default component in it is important to have the route)
+                    layout.tsx (this file is optional and can be used to define a layout for the route)
+
+
+8- Route handlers : are special functions that handle incoming requests to a specific route. They can be used to perform actions such as fetching   data, processing form submissions, or returning a response to the client. In Next.js, we can create a route handler by defining a function in the page.tsx file like below :
+
+    export async function GET(request: Request) {
+        const data = await fetchData();
+        return NextResponse.json(data);
+    }
+
+    this would work to have a folder route and then like below we can have a reserved name route.js
+    in this file we can define GET or POST or DELETE or PUT or PATCH functions like above .
+    this is mostly for creating the api routes.
 
 
 
+
+9- middleware.js which is a reserved name can be created next to package.json file and it's used to 
+
+    like this : 
+    import {NextResponse} from next/server;
+    export function middleware(request){
+        console.log(request);
+        return NextResponse.next();
+    }
+    it can be used for things like authentication, logging, or modifying the response before it reaches the client.
+    it runs this code before the request is processed by the route handler.
+    for every kind of requests .
+
+    export const config = {
+        matcher: ['/api/:path*', '/dashboard/:path*'],
+        or
+        matcher: '/news',
+    }
+    this would ensure that the middleware runs only for the specified routes.
+    this should be called config . 
 
 
 
@@ -247,12 +301,14 @@ FUNCTIONS or VARIABLES or HOOKS:
     now to my server function action we should add another param called prevState as the first param.
 
 
-7-
-
-
-
-
-
+7-useRouter() : is a hook that gives us access to the router object which contains information about the current route and allows us to programmatically navigate between routes.
+    like to say :
+    const router = useRouter();
+    router.push('/new-route');
+    this will navigate the user to the new route.
+    or 
+    router.back()
+    this will navigate the user back to the previous route.
 
 
 ACTIONS : 

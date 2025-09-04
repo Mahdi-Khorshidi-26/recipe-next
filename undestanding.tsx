@@ -322,4 +322,82 @@ ACTIONS :
     the input tag . 
 
 
+
+DATA FETCHING IN NEXT.JS : 
+
+    while doing fetching the data should have the component async .
+    so instead of having the fetch function in a useEffect we can have 
+    it and call it directly in the main component and also the next.js 
+    would add some other features to that fetch and also some caching 
+    things to it. 
+
+    but since we are on the BE side if we have access to the data source 
+    we can have the access strait from the data base . 
+
+
+
+1- server actions : are functions that can be run on the server side and can access the server environment directly. 
+   they are defined using the 'use server' directive at the top of the function. 
+   these actions can be used to handle form submissions, fetch data from a database, or perform any other server-side logic.
+   for example:
+   'use server';
+   async function myServerAction(formData) {
+       const name = formData.get('name');
+       // do something with the name
+   }
+    then in the form tag we can set the action attribute to this function name like to say :
+        <form action={myServerAction}>
+            <input type="text" name="name" />
+            <button type="submit">Submit</button>
+        </form>
+    also to mention that if we do not use 'use server' we have a client side action which means that the function will be executed on the client side and will not have access to the server environment.
+
+    also if we want to have the server function something passed to it we can have it like this :
+    <form action={myServerAction.bind(null,ourParam)}>
+        <input type="text" name="name" />
+        <input type="text" name="age" />
+        <button type="submit">Submit</button>
+    </form>
+
+    export async function myServerAction(ourParam, formData) {
+        const name = formData.get('name');
+        const age = formData.get('age');
+        // do something with the name and age
+    }
+
+    now about revalidating we can use revalidatePath function which allows us to revalidate the data for a specific path and ensure that the latest data is fetched from the server. This can be useful in scenarios where we want to refresh the data displayed in a component without having to reload the entire page.
+
+    for example:
+    'use server';
+    async function myServerAction(formData) {
+        const name = formData.get('name');
+        // do something with the name
+        revalidatePath('/some/path');
+    }
+
+    in here we can use a hook called useOptimistic() which works like this :
+    const [isOptimistic, setIsOptimistic] = useOptimistic(first,second);
+    first : is the data we wanna fetch 
+    second : is a function that changes the data on the client side until the 
+    actual data got fetched .
+
+    for example : 
+
+    const [optimisticPosts, updateOptimisticPosts] = useOptimistic(posts, (prevPosts , updatedPostId) => {
+        const updatedPostIndex = prevPosts.findIndex(post => post.id === updatedPostId);
+        if(updatedPostIndex === -1){
+            return prevPosts;
+        }
+        const updatedPost = {...prevPosts[updatedPostIndex]};
+        updatedPost.likes = updatedPost.likes + (updatedPost.isLiked ? -1 : 1)
+        updatedPost.isLiked = !updatedPost.isLiked;
+        const newPosts = [...prevPosts]
+        newPosts[updatedPostIndex] = updatedPost;
+        return newPosts;
+    });
+
+    and then at last we just need to have updateOptimisticPosts function called with post's ID .
+
+    
+
 */

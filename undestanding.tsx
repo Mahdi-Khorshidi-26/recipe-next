@@ -399,5 +399,28 @@ DATA FETCHING IN NEXT.JS :
     and then at last we just need to have updateOptimisticPosts function called with post's ID .
 
     
+CACHING  IN NEXT.JS : 
+
+1- Request Memoization : 
+    NextJS stores data requests with the same configuration
+    This avoids unnecessary duplicate data fetches
+    Cache only persists during request duration
+
+2- Data Cache : 
+    NextJS stores & reuses fetched data until it’s revalidated
+    This avoids unnecessary requests to the data source & speeds up the application
+    The cache persists until it’s revalidated (manually or after a set time)
+
+3- Full Route Cache :
+    NextJS stores the rendered HTML & RSC at build time
+    This avoids unnecessary HTML render cycles & data fetches
+    The cache persists until the related data cache is revalidated
+
+4- Router Cache :
+    NextJS stores the RSC payload in memory in the browser
+    This ensures extremely fast page transitions since no server request is needed
+
+
+
 
 */

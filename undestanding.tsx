@@ -421,6 +421,60 @@ CACHING  IN NEXT.JS :
     This ensures extremely fast page transitions since no server request is needed
 
 
+5- first of all fetch function has been developed so much in next.js that we do not think 
+    we're not going to be needing tanstack or apollo client for it . 
+
+    for revalidation of the data cache we can have some ways like below : 
+
+    export const revalidate = seconds ; this is a reserved name 
+
+    const response = await fetch('https://wwww.google.com',{
+        cache : 'default' or 'no-store' .... the default is : 'force-cache'
+        or 
+        next :{
+            revalidate : seconds. to revalidate the data .
+        }
+    })
+
+
+    or 
+
+    export const dynamic = 'auto' is the default and we can put it like : 'force-dynamic' to revalidate what ever 
+    is in that file and this is a reserved name . 
+
+    or another way of doing this is an import from next/cache ;
+
+    import { unstable_noStore } from 'next/cache';
+    or might the name be just noStore
+    and just calling this function at the beginning of the component 
+    then we're goog to go . 
+
+
+    besides the revalidatePath() function we have another function we can use just to revalidate 
+    a specific fetch it's called revalidateTag('JustATag')
+    then we can use it there 
+
+    const response = await fetch('https://wwww.google.com',{
+        next :{
+            tag:['JustATag']
+        }
+    })
+
+    another one situation is that when we use the database straitly so we can use a function from react itself 
+    like below : 
+
+    import { cache } from 'react';
+
+    export const getMessages = cache(
+    function getMessages(){
+    return db.prepare('SELECT * FROM messages').all()
+    }
+    )
+
+    besides cache function from react we have a function just like that and works like that called 
+    unstable_cache from 'next/cache' ;
+
+
 
 
 */

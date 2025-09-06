@@ -311,6 +311,17 @@ FUNCTIONS or VARIABLES or HOOKS:
     this will navigate the user back to the previous route.
 
 
+
+ 8- another parameter that is automatically passed to the components in next.js 
+    is searchParams which is used to get the query params from the url
+    and it can be used like this :
+    export default function Page({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
+       return <div>Query Param: {searchParams.id}</div>;
+    }  
+    the id here is the name of the query param that we want to get from the url 
+    like to say : https://www.yourDomain.com/test?id=1   
+
+
 ACTIONS : 
 
 1- by adding 'use server'; in an async function we make that a server function which can be run 
@@ -473,6 +484,8 @@ CACHING  IN NEXT.JS :
 
     besides cache function from react we have a function just like that and works like that called 
     unstable_cache from 'next/cache' ;
+
+AUTHENTICATION IN NEXT.JS :
 
 
 

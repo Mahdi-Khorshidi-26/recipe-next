@@ -409,6 +409,41 @@ DATA FETCHING IN NEXT.JS :
 
     and then at last we just need to have updateOptimisticPosts function called with post's ID .
 
+
+
+2- for graphql we can have : 
+
+                // lib/graphql.ts
+            export async function fetchGraphQL<TData = any>(
+            query: string,
+            variables?: Record<string, any>,
+            options?: RequestInit
+            ): Promise<TData> {
+            const res = await fetch(process.env.GRAPHQL_ENDPOINT as string, {
+                method: "POST",
+                headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${process.env.GRAPHQL_TOKEN}`, // optional
+                },
+                body: JSON.stringify({ query, variables }),
+                // 👇 Next.js fetch options for caching
+                cache: "no-store", // or "force-cache" | "no-store" | "reload"
+                ...options,
+            });
+
+            const json = await res.json();
+
+            if (json.errors) {
+                throw new Error(JSON.stringify(json.errors));
+            }
+
+            return json.data;
+            }
+
+
+
+
+
     
 CACHING  IN NEXT.JS : 
 

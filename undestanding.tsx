@@ -440,6 +440,27 @@ DATA FETCHING IN NEXT.JS :
             return json.data;
             }
 
+and this is how to use it : 
+        // app/page.tsx
+            import { fetchGraphQL } from "@/lib/graphql";
+
+            const GET_PRODUCTS = `
+            query Products($limit: Int) {
+                products(limit: $limit) {
+                id
+                name
+                price
+                }
+            }
+            `;
+
+            export default async function Page() {
+            const data = await fetchGraphQL<{ products: { id: string; name: string; price: number }[] }>(
+                GET_PRODUCTS,
+                { limit: 5 },
+                { next: { revalidate: 60 } } // ISR: revalidates every 60s
+            );
+
 
 
 
